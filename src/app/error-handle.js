@@ -1,4 +1,10 @@
-const { NAME_OR_PWD_IS_NULL, NAME_HAD_EXIST, NAME_DONOT_EXIST, PASSWORD_ISNOT_RIGHT } = require('../constants/errorTypes')
+const { NAME_OR_PWD_IS_NULL,
+    NAME_HAD_EXIST,
+    NAME_DONOT_EXIST,
+    PASSWORD_ISNOT_RIGHT,
+    UNAUTHORIZATION,
+    UNPERMISSION
+} = require('../constants/errorTypes')
 const errorHandle = (err, ctx) => {
     let status, message;
     switch (err.message) {
@@ -17,6 +23,14 @@ const errorHandle = (err, ctx) => {
         case PASSWORD_ISNOT_RIGHT:
             status = 409;
             message = '用户名或密码输入错误，请重新输入'
+            break;
+        case UNAUTHORIZATION:
+            status = 401;
+            message = '无效的token~'
+            break;
+        case UNPERMISSION:
+            status = 401;
+            message = '没有权限~'
             break;
         default:
             break;
