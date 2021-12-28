@@ -1,4 +1,4 @@
-const { create, reply, update, remove } = require('../services/comment-service')
+const { create, reply, update, remove ,getComment} = require('../services/comment-service')
 class commentControl {
     async createComment(ctx, next) {
         const { id } = ctx.user;
@@ -22,6 +22,11 @@ class commentControl {
     async remove(ctx, next) {
         const { commentId } = ctx.params
         const result = await remove(commentId)
+        ctx.body = result
+    }
+    async getAllComment(ctx, next) {
+        const { momentId } = ctx.query
+        const result = await getComment(momentId)
         ctx.body = result
     }
 }

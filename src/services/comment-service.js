@@ -20,5 +20,13 @@ class commentService {
         const [result] = await connnections.execute(statement, [commentId])
         return result
     }
+    async getComment(momentId) {
+        const statement = `select m.id id, m.content content, json_object('id', u.id, 'name', u.name) user
+        from comment m
+                 left join users u on m.user_id = u.id
+        where moment_id = ?;`
+        const [result] = await connnections.execute(statement, [momentId])
+        return result
+    }
 }
 module.exports = new commentService()

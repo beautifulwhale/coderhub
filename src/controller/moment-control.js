@@ -1,4 +1,10 @@
-const { createMoment, getMomentById, getMomentPage, updateMoment, remove } = require('../services/moment-service')
+const { createMoment,
+    getMomentById,
+    getMomentPage,
+    updateMoment,
+    remove,
+    isExistLabel,
+    createLabel } = require('../services/moment-service')
 class momentControl {
     async create(ctx, next) {
         const { id } = ctx.user
@@ -27,6 +33,17 @@ class momentControl {
         const momentId = ctx.params.momentId
         const result = await remove(momentId)
         ctx.body = result
+    }
+    async addLabels(ctx, next) {
+        const { labels } = ctx
+        const { momentId } = ctx.params
+        for (let label of labels) {
+            const isExist = await isExistLabel(label.id, momentId)
+            if (!isExist) {
+                await createLabel(label.id, momentId)
+            }
+        }
+        ctx.body = '动态添加标签成功～'
     }
 }
 module.exports = new momentControl()
